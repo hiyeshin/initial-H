@@ -1,6 +1,10 @@
+//if (! Detector.webgl) Detector. addGetWebGLMessage();
+
 function setupThree(){
 	//create the scene first. It's like a canvas
 	window.scene = new THREE.Scene();
+	window.scene.fog = new THREE.Fog(0x000000,500,-100);
+	window.scene.fog.color.setHSV(0.6,0.2,1);
 	
 	//then let's set the camera
 	var WIDTH = 960,
@@ -44,6 +48,23 @@ function addLights(){
 	light.shadowMapWidth = light.shadowMapHeight = 2048;
 }
 
+function addSpotLights(){
+	var spotLight = new THREE.SpotLight (0xFFFFFF);
+	spotLight.position.set(500,0,-200);
+	
+	spotLight.castShadow = true;
+	
+	spotLight.shadowCameraNear = 500;
+	spotLight.shadowCameraFar = 500;
+	spotLight.shadowCameraFov = 30;
+	
+	spotLight.shadowMapWidth = 1024;
+	spotLight.shadowMaHeight = 1024;
+	
+	scene.add(spotLight);
+}
+
+
 function addControls(){
 	
 	window.controls = new THREE.TrackballControls(camera);
@@ -73,10 +94,13 @@ function addCube(dimensions){//options are positions, width and heights, depth, 
 		geometry = new THREE.CubeGeometry(size,size,size),
 		material = new THREE.MeshLambertMaterial({color: color}),
 		cube = new THREE.Mesh(geometry,material)//Mesh consists of geometry and materials
-		
 		cube.position.set(x,y,z);
-		cube.receiveShadow = true;
-		cube.castShadow = true;
+		cube.rotation.x = Math.random()*2000 -1000;
+		cube.rotation.y = Math.random(); 	//thanks to DI
+		cube.receiveShadow = false;
+		cube.castShadow = false;
+	//	cube.matrixAutoUpdate = false;
+	//	cube.updateMatrix();
 		scene.add(cube);		
 }
 
@@ -88,28 +112,42 @@ function loop(){
 }
 
 function render(){
+	//cube.rotation.x = Math.sin(Date.now()*0.0007) * 0.5;
 	renderer.render(scene, camera)
 }
 
 setupThree();
 addLights();
+addSpotLights();
 //I'll add control function later with different keys
 addControls();
-
 //Let's run our animation loop
 loop();
+
+
+
+
+
+
+//fog();
 /////////////////////////////////////
 ////////"H" is for Hiye//////////////
 /////////////////////////////////////
 /////////////////////////////////////
 
 var z;
-var s;
+//var s;
 
-for (z = -350; z <= 000; z += 15){
+for (z = -350; z <= 000; z += 20){
  
+hue = 0,
+saturation = 0.19,
+value = 1.0,
+color = new THREE.Color().setHSV(hue, saturation, value).getHex();
+
+
 //left stroke
-addCube({x:-60 , y: -80, z:z, size: s });
+addCube({x:-60 , y: -80, z:z, color: color });
 addCube({x:-60 , y: -60, z:z });
 addCube({x:-60 , y: -40, z:z });
 addCube({x:-60 , y: -20, z:z });
@@ -117,7 +155,7 @@ addCube({x:-60 , y: 0, z:z });
 addCube({x:-60 , y: 20, z:z });
 addCube({x:-60 , y: 40, z:z });
 addCube({x:-60 , y: 60, z:z });
-addCube({x:-60 , y: 80, z:z });
+addCube({x:-60 , y: 80, z:z, color: color });
 //left top serif
 addCube({x:-80 , y: -80, z:z });
 addCube({x:-40 , y: -80, z:z });
@@ -126,7 +164,7 @@ addCube({x:-80 , y: 80, z:z });
 addCube({x:-40 , y: 80, z:z });
 
 //right stroke
-addCube({x:60 , y: -80, z:z });
+addCube({x:60 , y: -80, z:z, color: color });
 addCube({x:60 , y: -60, z:z });
 addCube({x:60 , y: -40, z:z });
 addCube({x:60 , y: -20, z:z });
@@ -134,7 +172,7 @@ addCube({x:60 , y: 0, z:z });
 addCube({x:60 , y: 20, z:z });
 addCube({x:60 , y: 40, z:z });
 addCube({x:60 , y: 60, z:z });
-addCube({x:60 , y: 80, z:z });
+addCube({x:60 , y: 80, z:z, color: color });
 //right top serif
 addCube({x:80 , y: -80, z:z });
 addCube({x:40 , y: -80, z:z });
