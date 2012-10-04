@@ -1,0 +1,27 @@
+
+
+body
+{
+	margin: 0;
+	background-color: #000;
+	padding: 0;
+	font-family: "Lucida Grande", Geneva, Verdana, Arial, sans-serif;
+	font-size:    9pt;
+	line-height: 15pt;
+	overflow: hidden;
+}
+
+
+#three
+{
+	position: absolute;
+	top:  50%;
+	left: 50%;
+	margin: -270px 0 0 -480px;
+	width:  960px;
+	height: 540px;
+}
+#three canvas
+{
+	background-color: #333;
+}
